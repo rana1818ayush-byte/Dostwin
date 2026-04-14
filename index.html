@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dostwin Official – Loading</title>
+  <title>Dostwin Official</title>
   <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/G2SQpxSy/IMG-20260413-215219-869.jpg"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --gold: #f0c040;
       --gold2: #e8a000;
       --dark: #0a0608;
-      --card-bg: rgba(10,6,8,0.72);
       --border-gold: rgba(240,192,64,0.35);
     }
-
     html, body {
-      height: 100%;
-      overflow: hidden;
+      min-height: 100%;
       font-family: 'Montserrat', sans-serif;
       background: #0a0608;
       color: #fff;
+      overflow-x: hidden;
     }
 
-    /* ── BACKGROUND ── */
+    /* BACKGROUND */
     .bg {
       position: fixed; inset: 0; z-index: 0;
       background-image: url('https://i.postimg.cc/s2Yq1qpQ/Screenshot-20260413-220330-Files-by-Google.png');
-      background-size: cover;
-      background-position: center;
+      background-size: cover; background-position: center;
       filter: blur(18px) brightness(0.38) saturate(1.3);
       transform: scale(1.07);
       animation: bgBreath 8s ease-in-out infinite alternate;
@@ -39,20 +35,18 @@
       from { filter: blur(18px) brightness(0.38) saturate(1.3); }
       to   { filter: blur(14px) brightness(0.44) saturate(1.5); }
     }
-
-    /* faint vignette */
     .vignette {
       position: fixed; inset: 0; z-index: 1;
       background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
       pointer-events: none;
     }
 
-    /* ── TOP NAV ── */
+    /* TOP NAV — Login left, Register right only */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 32px;
-      background: rgba(10,6,8,0.55);
+      padding: 13px 24px;
+      background: rgba(10,6,8,0.65);
       backdrop-filter: blur(20px) saturate(1.6);
       border-bottom: 1px solid var(--border-gold);
       animation: slideDown .7s cubic-bezier(.22,1,.36,1) both;
@@ -62,301 +56,205 @@
       to   { opacity:1; transform:translateY(0); }
     }
 
-    .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none;
-    }
-    .nav-logo img {
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      object-fit: cover;
-      box-shadow: 0 0 14px rgba(240,192,64,0.45);
-    }
-    .nav-logo-text {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      background: linear-gradient(135deg, #f0c040 30%, #fff6c0 60%, #e8a000 90%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      white-space: nowrap;
-    }
-
-    .nav-btns { display: flex; gap: 12px; }
-
     .btn {
-      padding: 9px 22px;
-      border-radius: 6px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      font-size: 0.8rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      cursor: pointer;
-      border: none;
-      transition: all .25s ease;
-      text-decoration: none;
+      padding: 9px 24px; border-radius: 7px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; border: none; transition: all .25s ease;
+      text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
     }
     .btn-login {
-      background: transparent;
-      border: 1.5px solid var(--gold);
-      color: var(--gold);
+      background: transparent; border: 1.5px solid var(--gold); color: var(--gold);
     }
-    .btn-login:hover {
-      background: rgba(240,192,64,0.12);
-      box-shadow: 0 0 16px rgba(240,192,64,0.3);
+    .btn-login:hover { background: rgba(240,192,64,0.12); box-shadow: 0 0 16px rgba(240,192,64,0.3); }
+    .btn-register { background: linear-gradient(135deg,#f0c040,#e8a000); color: #1a0e00; }
+    .btn-register:hover { box-shadow: 0 0 22px rgba(240,160,0,0.55); transform: translateY(-1px); }
+
+    /* floating coins */
+    .coin {
+      position: fixed; pointer-events: none; z-index: 5; opacity: 0;
+      animation: floatCoin var(--dur,7s) var(--delay,0s) ease-in-out infinite;
     }
-    .btn-register {
-      background: linear-gradient(135deg, #f0c040, #e8a000);
-      color: #1a0e00;
-    }
-    .btn-register:hover {
-      box-shadow: 0 0 22px rgba(240,160,0,0.55);
-      transform: translateY(-1px);
+    @keyframes floatCoin {
+      0%   { opacity:0; transform:translateY(110vh) rotate(0deg) scale(.8); }
+      10%  { opacity:.5; }
+      90%  { opacity:.3; }
+      100% { opacity:0; transform:translateY(-10vh) rotate(360deg) scale(1.1); }
     }
 
-    /* ── CENTER CONTENT ── */
-    .center {
+    /* MAIN */
+    .page {
       position: relative; z-index: 10;
-      height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 0;
-      padding-top: 70px;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 110px 20px 0;
     }
 
-    /* Logo glow ring */
+    /* Logo */
     .logo-wrap {
       position: relative;
       animation: fadeUp .9s .2s cubic-bezier(.22,1,.36,1) both;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
     .logo-wrap::before {
-      content: '';
-      position: absolute; inset: -10px;
-      border-radius: 50%;
-      background: conic-gradient(var(--gold), var(--gold2), #fff6c0, var(--gold));
-      animation: spinRing 4s linear infinite;
-      filter: blur(4px);
-      opacity: 0.65;
+      content: ''; position: absolute; inset: -10px; border-radius: 50%;
+      background: conic-gradient(var(--gold),var(--gold2),#fff6c0,var(--gold));
+      animation: spinRing 4s linear infinite; filter: blur(4px); opacity: .65;
     }
     .logo-wrap::after {
-      content: '';
-      position: absolute; inset: -2px;
-      border-radius: 50%;
+      content: ''; position: absolute; inset: -2px; border-radius: 50%;
       background: var(--dark);
     }
-    @keyframes spinRing {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
+    @keyframes spinRing { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
     .logo-img {
       position: relative; z-index: 2;
-      width: 130px; height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--gold);
-      box-shadow: 0 0 40px rgba(240,192,64,0.5), 0 0 80px rgba(240,160,0,0.25);
+      width: 115px; height: 115px; border-radius: 50%;
+      object-fit: cover; border: 3px solid var(--gold);
+      box-shadow: 0 0 40px rgba(240,192,64,.5), 0 0 80px rgba(240,160,0,.25);
     }
 
     /* Site name */
     .site-name {
       font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(1.6rem, 5vw, 2.8rem);
-      font-weight: 900;
-      letter-spacing: 4px;
-      text-align: center;
-      background: linear-gradient(135deg, #f0c040 0%, #fff6c0 45%, #e8a000 75%, #f0c040 100%);
+      font-size: clamp(1.5rem,5vw,2.6rem); font-weight: 900;
+      letter-spacing: 4px; text-align: center;
+      background: linear-gradient(135deg,#f0c040 0%,#fff6c0 45%,#e8a000 75%,#f0c040 100%);
       background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       animation: fadeUp .9s .35s cubic-bezier(.22,1,.36,1) both, shine 3s linear infinite;
-      text-shadow: none;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
     @keyframes shine {
-      from { background-position: 0% center; }
-      to   { background-position: 200% center; }
+      from{background-position:0% center;} to{background-position:200% center;}
     }
-
     .tagline {
-      font-size: 0.72rem;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: rgba(240,192,64,0.6);
-      text-align: center;
-      animation: fadeUp .9s .5s both;
-      margin-bottom: 48px;
+      font-size: .68rem; letter-spacing: 5px; text-transform: uppercase;
+      color: rgba(240,192,64,.6); text-align: center;
+      animation: fadeUp .9s .5s both; margin-bottom: 28px;
     }
-
-    /* divider */
     .divider {
       width: 180px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 0 auto 48px;
-      animation: fadeUp .9s .55s both;
+      background: linear-gradient(90deg,transparent,var(--gold),transparent);
+      margin-bottom: 28px; animation: fadeUp .9s .55s both;
     }
 
-    /* Telegram button */
+    /* TELEGRAM button */
     .tg-btn {
       display: inline-flex; align-items: center; gap: 10px;
-      padding: 12px 28px;
-      border-radius: 50px;
-      background: linear-gradient(135deg, #229ED9, #1a7fc1);
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 0.82rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      text-decoration: none;
+      padding: 13px 30px; border-radius: 50px;
+      background: linear-gradient(135deg,#229ED9,#1a7fc1);
+      color: #fff; font-family: 'Montserrat',sans-serif;
+      font-weight: 800; font-size: .82rem; letter-spacing: 1.5px;
+      text-transform: uppercase; text-decoration: none;
       border: none; cursor: pointer;
-      box-shadow: 0 0 24px rgba(34,158,217,0.45), 0 4px 18px rgba(0,0,0,0.4);
-      animation: fadeUp .9s .6s both, tgPulse 2.5s ease-in-out 1.5s infinite;
-      margin-bottom: 28px;
-      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 0 26px rgba(34,158,217,.5), 0 4px 18px rgba(0,0,0,.4);
+      animation: fadeUp .9s .62s both, tgPulse 2.5s ease-in-out 1.6s infinite;
+      margin-bottom: 28px; transition: transform .2s, box-shadow .2s;
     }
-    .tg-btn:hover {
-      transform: translateY(-2px) scale(1.04);
-      box-shadow: 0 0 36px rgba(34,158,217,0.65), 0 6px 22px rgba(0,0,0,0.5);
-    }
-    .tg-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .tg-btn:hover { transform:translateY(-2px) scale(1.04); box-shadow:0 0 40px rgba(34,158,217,.7),0 6px 22px rgba(0,0,0,.5); }
+    .tg-btn svg { width:22px; height:22px; flex-shrink:0; }
     @keyframes tgPulse {
-      0%,100% { box-shadow: 0 0 24px rgba(34,158,217,0.45), 0 4px 18px rgba(0,0,0,0.4); }
-      50%      { box-shadow: 0 0 44px rgba(34,158,217,0.75), 0 4px 18px rgba(0,0,0,0.4); }
+      0%,100%{box-shadow:0 0 26px rgba(34,158,217,.5),0 4px 18px rgba(0,0,0,.4);}
+      50%{box-shadow:0 0 50px rgba(34,158,217,.85),0 4px 18px rgba(0,0,0,.4);}
     }
 
-    /* Bottom login/register */
-    .bottom-btns {
-      display: flex; gap: 14px;
-      margin-top: 26px;
-      animation: fadeUp .9s .95s both;
+    /* SIGNUP BONUS button */
+    .signup-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px; border-radius: 50px;
+      background: linear-gradient(135deg,#ff6b00,#ff3300,#ff6b00);
+      background-size: 200% auto;
+      color: #fff; font-family: 'Montserrat',sans-serif;
+      font-weight: 800; font-size: .88rem; letter-spacing: 1.5px;
+      text-transform: uppercase; text-decoration: none;
+      border: none; cursor: pointer;
+      box-shadow: 0 0 30px rgba(255,80,0,.6), 0 4px 20px rgba(0,0,0,.45);
+      animation: fadeUp .9s .75s both, bonusPulse 2s ease-in-out 1.8s infinite, bonusShine 3s linear infinite;
+      transition: transform .2s, box-shadow .2s;
+      margin-bottom: 50px;
     }
-    .bottom-btns .btn { padding: 11px 30px; font-size: 0.78rem; }
-
-    /* Loading bar */
-    .loader-box {
-      width: clamp(220px, 55vw, 400px);
-      animation: fadeUp .9s .75s both;
+    .signup-btn:hover { transform:translateY(-2px) scale(1.04); box-shadow:0 0 50px rgba(255,80,0,.8),0 6px 24px rgba(0,0,0,.5); }
+    @keyframes bonusPulse {
+      0%,100%{box-shadow:0 0 30px rgba(255,80,0,.6),0 4px 20px rgba(0,0,0,.45);}
+      50%{box-shadow:0 0 60px rgba(255,80,0,.9),0 4px 20px rgba(0,0,0,.45);}
     }
-    .loader-label {
-      display: flex; justify-content: space-between;
-      font-size: 0.68rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 10px;
-    }
-    .loader-track {
-      width: 100%;
-      height: 4px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 99px;
-      overflow: hidden;
-      position: relative;
-    }
-    .loader-fill {
-      height: 100%;
-      border-radius: 99px;
-      background: linear-gradient(90deg, #e8a000, #f0c040, #fff6c0);
-      width: 0%;
-      animation: loadFill 3.2s cubic-bezier(.4,0,.2,1) .9s forwards;
-      position: relative;
-    }
-    .loader-fill::after {
-      content: '';
-      position: absolute; right: 0; top: 50%;
-      transform: translateY(-50%);
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: #fff6c0;
-      box-shadow: 0 0 12px 4px rgba(255,246,192,0.7);
-    }
-    @keyframes loadFill {
-      0%   { width: 0%; }
-      40%  { width: 48%; }
-      70%  { width: 74%; }
-      90%  { width: 91%; }
-      100% { width: 100%; }
-    }
-
-    .loader-pct {
-      text-align: right;
-      font-size: 0.68rem;
-      letter-spacing: 2px;
-      color: rgba(240,192,64,0.7);
-      margin-top: 8px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* floating coins */
-    .coin {
-      position: fixed;
-      font-size: 1.4rem;
-      pointer-events: none;
-      z-index: 5;
-      opacity: 0;
-      animation: floatCoin var(--dur, 7s) var(--delay, 0s) ease-in-out infinite;
-    }
-    @keyframes floatCoin {
-      0%   { opacity:0; transform: translateY(110vh) rotate(0deg) scale(.8); }
-      10%  { opacity:.55; }
-      90%  { opacity:.35; }
-      100% { opacity:0;  transform: translateY(-10vh) rotate(360deg) scale(1.1); }
+    @keyframes bonusShine {
+      from{background-position:0% center;} to{background-position:200% center;}
     }
 
     @keyframes fadeUp {
-      from { opacity:0; transform: translateY(22px); }
-      to   { opacity:1; transform: translateY(0); }
+      from{opacity:0;transform:translateY(22px);}
+      to{opacity:1;transform:translateY(0);}
     }
 
-    /* Responsive */
-    @media (max-width: 480px) {
-      nav { padding: 11px 16px; }
-      .nav-logo-text { font-size: 0.72rem; }
-      .btn { padding: 8px 14px; font-size: 0.7rem; letter-spacing: 1px; }
-      .logo-img { width: 100px; height: 100px; }
+    /* PRIVACY POLICY FOOTER */
+    footer {
+      position: relative; z-index: 10;
+      width: 100%; max-width: 740px; margin: 0 auto;
+      border-top: 1px solid var(--border-gold);
+      padding: 38px 28px 44px;
+      animation: fadeUp 1s 1s both;
+    }
+    .footer-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1rem; letter-spacing: 3px;
+      color: var(--gold); margin-bottom: 14px; text-align: center;
+    }
+    .policy-intro {
+      font-size: .72rem; line-height: 1.8;
+      color: rgba(255,255,255,.42); text-align: center; margin-bottom: 22px;
+    }
+    .policy-intro strong { color: rgba(240,192,64,.75); }
+    .policy-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px;
+    }
+    .policy-item h4 {
+      font-size: .68rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px;
+    }
+    .policy-item p { font-size: .67rem; line-height: 1.75; color: rgba(255,255,255,.36); }
+    .footer-copy {
+      margin-top: 26px; font-size: .62rem;
+      color: rgba(255,255,255,.22); text-align: center;
+    }
+
+    @media(max-width:480px){
+      nav{padding:10px 14px;}
+      .btn{padding:8px 15px;font-size:.7rem;letter-spacing:1px;}
+      .logo-img{width:90px;height:90px;}
+      .policy-grid{grid-template-columns:1fr;}
+      .signup-btn{font-size:.76rem;padding:14px 22px;}
+      .tg-btn{font-size:.74rem;padding:12px 20px;}
     }
   </style>
 </head>
 <body>
 
-  <!-- Background -->
   <div class="bg"></div>
   <div class="vignette"></div>
 
-  <!-- Floating coins -->
   <script>
-    const symbols = ['🪙','💎','🃏','🎰','♠','♥','♦','♣'];
+    const s=['🪙','💎','🃏','🎰','♠','♥','♦','♣'];
     for(let i=0;i<18;i++){
-      const el = document.createElement('div');
+      const el=document.createElement('div');
       el.className='coin';
-      el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-      el.style.left = Math.random()*100+'vw';
+      el.textContent=s[Math.floor(Math.random()*s.length)];
+      el.style.left=Math.random()*100+'vw';
       el.style.setProperty('--dur',(6+Math.random()*8)+'s');
-      el.style.setProperty('--delay',(Math.random()*6)+'s');
-      el.style.fontSize=(0.9+Math.random()*1.2)+'rem';
+      el.style.setProperty('--delay',(Math.random()*7)+'s');
+      el.style.fontSize=(0.9+Math.random()*1.1)+'rem';
       document.body.appendChild(el);
     }
   </script>
 
-  <!-- Top Nav -->
+  <!-- NAV: Login LEFT | Register RIGHT -->
   <nav>
-    <a class="nav-logo" href="#">
-      <img src="https://i.postimg.cc/G2SQpxSy/IMG-20260413-215219-869.jpg" alt="Dostwin Logo"/>
-      <span class="nav-logo-text">Dostwin Official</span>
-    </a>
-    <div class="nav-btns">
-      <a href="#" class="btn btn-login">Login</a>
-      <a href="#" class="btn btn-register">Register</a>
-    </div>
+    <a href="#" class="btn btn-login">Login</a>
+    <a href="#" class="btn btn-register">Register</a>
   </nav>
 
-  <!-- Center -->
-  <div class="center">
+  <!-- MAIN CONTENT -->
+  <div class="page">
 
     <div class="logo-wrap">
       <img class="logo-img" src="https://i.postimg.cc/G2SQpxSy/IMG-20260413-215219-869.jpg" alt="Dostwin"/>
@@ -364,72 +262,57 @@
 
     <h1 class="site-name">Dostwin Official</h1>
     <p class="tagline">Where Fortune Meets Destiny</p>
-
     <div class="divider"></div>
 
-    <!-- Telegram Join Button -->
+    <!-- Telegram -->
     <a href="https://t.me/" class="tg-btn" target="_blank">
       <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
         <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
       </svg>
-      Join My Community
+      Join For Free Gift Codes
     </a>
 
-    <!-- Loading Bar -->
-    <div class="loader-box">
-      <div class="loader-label">
-        <span>Loading</span>
-        <span id="pctLabel">0%</span>
-      </div>
-      <div class="loader-track">
-        <div class="loader-fill" id="fill"></div>
-      </div>
-    </div>
-
-    <!-- Bottom Login / Register -->
-    <div class="bottom-btns">
-      <a href="#" class="btn btn-login">Login</a>
-      <a href="#" class="btn btn-register">Register</a>
-    </div>
+    <!-- Signup Bonus -->
+    <a href="#" class="signup-btn">
+      🎁 &nbsp;SIGNUP &amp; GET ₹500 BONUS
+    </a>
 
   </div>
 
-  <script>
-    // Sync percentage counter to CSS animation
-    const label = document.getElementById('pctLabel');
-    const keyframes = [
-      {t:900,  target:0},
-      {t:2180, target:48},
-      {t:3150, target:74},
-      {t:3770, target:91},
-      {t:4100, target:100},
-    ];
-    let start = null;
-    function lerp(a,b,t){return a+(b-a)*t;}
-    function easeOut(t){return 1-Math.pow(1-t,3);}
-
-    function tick(ts){
-      if(!start) start = ts;
-      const elapsed = ts - start;
-      let pct = 0;
-      for(let i=keyframes.length-1;i>=0;i--){
-        if(elapsed >= keyframes[i].t){
-          if(i<keyframes.length-1){
-            const seg = keyframes[i+1].t - keyframes[i].t;
-            const prog = Math.min((elapsed-keyframes[i].t)/seg,1);
-            pct = lerp(keyframes[i].target, keyframes[i+1].target, easeOut(prog));
-          } else {
-            pct = keyframes[i].target;
-          }
-          break;
-        }
-      }
-      label.textContent = Math.round(pct)+'%';
-      if(elapsed < 4200) requestAnimationFrame(tick);
-      else label.textContent = '100%';
-    }
-    requestAnimationFrame(tick);
-  </script>
+  <!-- PRIVACY POLICY -->
+  <footer>
+    <div class="footer-title">Privacy &amp; Policy</div>
+    <p class="policy-intro">
+      By using <strong>Dostwin Official</strong>, you agree to the following terms. Please read carefully before registering or playing on our platform.
+    </p>
+    <div class="policy-grid">
+      <div class="policy-item">
+        <h4>Data We Collect</h4>
+        <p>We collect basic account information such as your name, email, and phone number along with gameplay data to improve your experience and ensure fair play.</p>
+      </div>
+      <div class="policy-item">
+        <h4>How We Use It</h4>
+        <p>Your data is used solely to operate your account, process transactions, and send promotional offers you have opted into. We never sell your personal data to third parties.</p>
+      </div>
+      <div class="policy-item">
+        <h4>Age Restriction</h4>
+        <p>Dostwin Official is strictly for users aged <strong style="color:rgba(240,192,64,.75)">18+</strong>. Registration by minors is strictly prohibited. We reserve the right to verify age at any time.</p>
+      </div>
+      <div class="policy-item">
+        <h4>Responsible Gaming</h4>
+        <p>We promote responsible gaming. If you feel you are playing beyond your limits, contact our support to set deposit limits or self-exclude from the platform.</p>
+      </div>
+      <div class="policy-item">
+        <h4>Security</h4>
+        <p>All transactions and personal data are protected with 256-bit SSL encryption. We follow industry best practices to keep your information secure at all times.</p>
+      </div>
+      <div class="policy-item">
+        <h4>Bonus Terms</h4>
+        <p>All bonuses including the ₹500 signup bonus are subject to wagering requirements. Fraudulent claims or misuse will result in immediate account termination.</p>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Dostwin Official. All rights reserved. &nbsp;|&nbsp; Support available via Telegram.</p>
+  </footer>
 
 </body>
 </html>
