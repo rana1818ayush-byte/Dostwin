@@ -200,10 +200,47 @@
       animation: fadeUp .9s .55s both;
     }
 
+    /* Telegram button */
+    .tg-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #229ED9, #1a7fc1);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      box-shadow: 0 0 24px rgba(34,158,217,0.45), 0 4px 18px rgba(0,0,0,0.4);
+      animation: fadeUp .9s .6s both, tgPulse 2.5s ease-in-out 1.5s infinite;
+      margin-bottom: 28px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .tg-btn:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 0 36px rgba(34,158,217,0.65), 0 6px 22px rgba(0,0,0,0.5);
+    }
+    .tg-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+    @keyframes tgPulse {
+      0%,100% { box-shadow: 0 0 24px rgba(34,158,217,0.45), 0 4px 18px rgba(0,0,0,0.4); }
+      50%      { box-shadow: 0 0 44px rgba(34,158,217,0.75), 0 4px 18px rgba(0,0,0,0.4); }
+    }
+
+    /* Bottom login/register */
+    .bottom-btns {
+      display: flex; gap: 14px;
+      margin-top: 26px;
+      animation: fadeUp .9s .95s both;
+    }
+    .bottom-btns .btn { padding: 11px 30px; font-size: 0.78rem; }
+
     /* Loading bar */
     .loader-box {
       width: clamp(220px, 55vw, 400px);
-      animation: fadeUp .9s .65s both;
+      animation: fadeUp .9s .75s both;
     }
     .loader-label {
       display: flex; justify-content: space-between;
@@ -330,6 +367,15 @@
 
     <div class="divider"></div>
 
+    <!-- Telegram Join Button -->
+    <a href="https://t.me/" class="tg-btn" target="_blank">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+      </svg>
+      Join My Community
+    </a>
+
+    <!-- Loading Bar -->
     <div class="loader-box">
       <div class="loader-label">
         <span>Loading</span>
@@ -338,6 +384,12 @@
       <div class="loader-track">
         <div class="loader-fill" id="fill"></div>
       </div>
+    </div>
+
+    <!-- Bottom Login / Register -->
+    <div class="bottom-btns">
+      <a href="#" class="btn btn-login">Login</a>
+      <a href="#" class="btn btn-register">Register</a>
     </div>
 
   </div>
